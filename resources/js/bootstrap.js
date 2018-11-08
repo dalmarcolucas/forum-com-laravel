@@ -9,11 +9,11 @@ window.Popper = require('popper.js').default;
  */
 
 try {
-    debugger;
     window.$ = window.jQuery = require('jquery');
 
-    require('materialize-css/dist/css/materialize.css');
+    require('materialize-css/dist/js/materialize.js');
     require('./parallax-header.js');
+    require('./dropdown.js');
 } catch (e) {}
 
 /**

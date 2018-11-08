@@ -4,9 +4,13 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use \App\Thread;
 
 class ExampleTest extends TestCase
 {
+    use DatabaseMigrations;
+
     /**
      * A basic test example.
      *
@@ -15,5 +19,33 @@ class ExampleTest extends TestCase
     public function testBasicTest()
     {
         $this->assertTrue(true);
+    }
+
+    public function testReplies()
+    {
+        $this->seed('RepliesTableSeeder');
+
+        $response = $this->get('/threads/1');
+        $response->assertStatus(200);
+
+        $response = $this->get('/threads/2');
+        $response->assertStatus(200);
+
+        $response = $this->get('/threads/a');
+        $response->assertStatus(404);
+    }
+
+    public function testThreadVisualization()
+    {
+        $this->seed('ThreadsTableSeeder');
+
+        $thread = Thread::find(1);
+
+        $response = $this->get('/threads/1');
+        $response->assertSee($thread->title);
+
+        $response = $this->get('/threads/1');
+        $response->assertSee($thread->body);
+
     }
 }

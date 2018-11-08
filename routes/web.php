@@ -1,5 +1,7 @@
 <?php
 
+use  \App\Thread;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,4 +15,15 @@
 
 Route::get('/', function () {
     return view('threads.index');
-})->name('threads');
+});
+
+Route::get('/threads/{id}', function ($id) {
+    $result = Thread::findOrFail($id);
+    return view('threads.view', compact('result'));
+});
+
+Route::get('/locale/{locale}', function ($locale) {
+    session(['locale' => $locale]);
+
+    return back();
+});

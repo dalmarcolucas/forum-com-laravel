@@ -2,10 +2,12 @@
 
 @section('content')
     
-    <div id="app">
-        <example-component>
-        Carregando
-        </example-component>
+    <div class="container">
+    <h3>{{__('Most recent threads')}}</h3>
+        <threads-component
+            title="{{__('Threads')}}">
+             @include('layouts.default.preloader')
+        </threads-component>
     </div>
 
 @endsection
