@@ -1,12 +1,14 @@
+@import '~materialize-css/dist/css/materialize.css';
 
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+body{
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
 
-// Variables
-@import 'variables';
-
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+main {
+  flex: 1 0 auto;
+}
 
 .navbar-laravel {
   background-color: #fff;
