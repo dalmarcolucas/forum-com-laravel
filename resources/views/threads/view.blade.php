@@ -9,6 +9,12 @@
             <div class="card-content">
                 {{ $result->body }}
             </div>
+            <div class="card-action">
+                @can ('update', $result)
+                    <a href="/threads/{{$result->id}}/edit">{{__('Edit')}}</a>
+                @endcan
+                <a href="/">{{__('Back')}}</a>
+            </div>
         </div>
 
         <replies-component

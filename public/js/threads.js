@@ -1,13 +1,5 @@
 webpackJsonp([2],{
 
-/***/ 39:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(40);
-
-
-/***/ }),
-
 /***/ 4:
 /***/ (function(module, exports) {
 
@@ -121,6 +113,14 @@ module.exports = function normalizeComponent (
 /***/ 40:
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = __webpack_require__(41);
+
+
+/***/ }),
+
+/***/ 41:
+/***/ (function(module, exports, __webpack_require__) {
+
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -136,7 +136,7 @@ window.Vue = __webpack_require__(3);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('threads-component', __webpack_require__(57));
+Vue.component('threads-component', __webpack_require__(44));
 
 var app = new Vue({
   el: '#app'
@@ -144,15 +144,15 @@ var app = new Vue({
 
 /***/ }),
 
-/***/ 57:
+/***/ 44:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(4)
 /* script */
-var __vue_script__ = __webpack_require__(58)
+var __vue_script__ = __webpack_require__(45)
 /* template */
-var __vue_template__ = __webpack_require__(59)
+var __vue_template__ = __webpack_require__(46)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -192,7 +192,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 58:
+/***/ 45:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -224,58 +224,188 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['title']
+    props: ['title', 'threads', 'replies', 'open', 'newThread', 'newTitle', 'newBody', 'send'],
+    data: function data() {
+        return {
+            threads_response: [],
+            thread_to_save: {
+                title: '',
+                body: ''
+            }
+        };
+    },
+
+    methods: {
+        save: function save() {
+            var _this = this;
+
+            window.axios.post('/threads', this.thread_to_save).then(function () {
+                _this.getThreads();
+            });
+        },
+        getThreads: function getThreads() {
+            var _this2 = this;
+
+            window.axios.get('/threads').then(function (response) {
+                _this2.threads_response = response.data;
+            });
+        }
+    },
+    mounted: function mounted() {
+        this.getThreads();
+    }
 });
 
 /***/ }),
 
-/***/ 59:
+/***/ 46:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card" }, [
-    _c("div", { staticClass: "card-content" }, [
-      _c("span", { staticClass: "card-title" }, [_vm._v(_vm._s(_vm.title))]),
-      _vm._v(" "),
-      _vm._m(0)
+  return _c("div", [
+    _c("div", { staticClass: "card" }, [
+      _c("div", { staticClass: "card-content" }, [
+        _c("span", { staticClass: "card-title" }, [_vm._v(_vm._s(_vm.title))]),
+        _vm._v(" "),
+        _c("table", [
+          _c("thead", [
+            _c("tr", [
+              _c("th", [_vm._v("#")]),
+              _vm._v(" "),
+              _c("th", [_vm._v(_vm._s(_vm.threads))]),
+              _vm._v(" "),
+              _c("th", [_vm._v(_vm._s(_vm.replies))]),
+              _vm._v(" "),
+              _c("th")
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.threads_response.data, function(thread) {
+              return _c("tr", [
+                _c("th", [_vm._v(_vm._s(thread.id))]),
+                _vm._v(" "),
+                _c("th", [_vm._v(_vm._s(thread.title))]),
+                _vm._v(" "),
+                _c("th", [_vm._v("0")]),
+                _vm._v(" "),
+                _c("th", [
+                  _c("a", { attrs: { href: "/threads/" + thread.id } }, [
+                    _vm._v(_vm._s(_vm.open))
+                  ])
+                ])
+              ])
+            })
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "card" }, [
+      _c("div", { staticClass: "card-content" }, [
+        _c("span", { staticClass: "card-title" }, [
+          _vm._v(_vm._s(_vm.newThread))
+        ]),
+        _vm._v(" "),
+        _c(
+          "form",
+          {
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                _vm.save()
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "input-field" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.thread_to_save.title,
+                    expression: "thread_to_save.title"
+                  }
+                ],
+                attrs: { type: "text", placeholder: _vm.newTitle },
+                domProps: { value: _vm.thread_to_save.title },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.thread_to_save, "title", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-field" }, [
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.thread_to_save.body,
+                    expression: "thread_to_save.body"
+                  }
+                ],
+                staticClass: "materialize-textarea",
+                attrs: { placeholder: _vm.newBody },
+                domProps: { value: _vm.thread_to_save.body },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.thread_to_save, "body", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              { staticClass: "btn red accent-2", attrs: { type: "submit" } },
+              [_vm._v(_vm._s(_vm.send))]
+            )
+          ]
+        )
+      ])
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("table", [
-      _c("thead", [
-        _c("tr", [
-          _c("th", [_vm._v("#")]),
-          _vm._v(" "),
-          _c("th", [_vm._v("Thread")]),
-          _vm._v(" "),
-          _c("th", [_vm._v("Replies")]),
-          _vm._v(" "),
-          _c("th")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("tbody", [
-        _c("th", [_vm._v("1")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Topico legal que vai vir do banco")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("3")]),
-        _vm._v(" "),
-        _c("th", [_c("a", { attrs: { href: "/threads/1" } }, [_vm._v("open")])])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -287,4 +417,4 @@ if (false) {
 
 /***/ })
 
-},[39]);
+},[40]);
