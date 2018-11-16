@@ -14,10 +14,13 @@
         "bootstrap": "^4.0.0",
         "cross-env": "^5.1",
         "jquery": "^3.2",
+        "laravel-echo": "^1.4.1",
         "laravel-mix": "^2.0",
         "lodash": "^4.17.5",
         "materialize-css": "^1.0.0",
         "popper.js": "^1.12",
+        "pusher-js": "^4.3.1",
+        "sweetalert2": "^7.0.10",
         "vue": "^2.5.7"
     }
 }

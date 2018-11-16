@@ -14,7 +14,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="thread in threads_response.data">
+                    <tr v-for="thread in threads_response.data" :key="thread.id">
                         <th>{{ thread.id }}</th>
                         <th>{{ thread.title }}</th>
                         <th>0</th>
@@ -73,16 +73,24 @@
             save() {
                 window.axios.post('/threads', this.thread_to_save).then(() => {
                     this.getThreads()
-              })
+
+              });
             },
             getThreads() {
                 window.axios.get('/threads').then((response) => {
                     this.threads_response = response.data
               })
-            }
+            },
         },
         mounted() {
              this.getThreads()
+
+             Echo.channel('new.threads')
+                .listen('NewThread', (e) => {
+                   if(e.thread){
+                       this.threads_response.data.splice(0, 0, e.thread);
+                   }
+                });
         }
     }
 </script>

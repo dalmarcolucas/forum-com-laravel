@@ -110,15 +110,15 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 40:
+/***/ 43:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(41);
+module.exports = __webpack_require__(44);
 
 
 /***/ }),
 
-/***/ 41:
+/***/ 44:
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -136,7 +136,7 @@ window.Vue = __webpack_require__(3);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('threads-component', __webpack_require__(44));
+Vue.component('threads-component', __webpack_require__(47));
 
 var app = new Vue({
   el: '#app'
@@ -144,15 +144,15 @@ var app = new Vue({
 
 /***/ }),
 
-/***/ 44:
+/***/ 47:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(4)
 /* script */
-var __vue_script__ = __webpack_require__(45)
+var __vue_script__ = __webpack_require__(48)
 /* template */
-var __vue_template__ = __webpack_require__(46)
+var __vue_template__ = __webpack_require__(49)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -192,7 +192,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 45:
+/***/ 48:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -277,13 +277,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     mounted: function mounted() {
+        var _this3 = this;
+
         this.getThreads();
+
+        Echo.channel('new.threads').listen('NewThread', function (e) {
+            if (e.thread) {
+                _this3.threads_response.data.splice(0, 0, e.thread);
+            }
+        });
     }
 });
 
 /***/ }),
 
-/***/ 46:
+/***/ 49:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -311,7 +319,7 @@ var render = function() {
           _c(
             "tbody",
             _vm._l(_vm.threads_response.data, function(thread) {
-              return _c("tr", [
+              return _c("tr", { key: thread.id }, [
                 _c("th", [_vm._v(_vm._s(thread.id))]),
                 _vm._v(" "),
                 _c("th", [_vm._v(_vm._s(thread.title))]),
@@ -417,4 +425,4 @@ if (false) {
 
 /***/ })
 
-},[40]);
+},[43]);

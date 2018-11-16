@@ -110,15 +110,15 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 47:
+/***/ 50:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(48);
+module.exports = __webpack_require__(51);
 
 
 /***/ }),
 
-/***/ 48:
+/***/ 51:
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -136,7 +136,7 @@ window.Vue = __webpack_require__(3);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('replies-component', __webpack_require__(49));
+Vue.component('replies-component', __webpack_require__(52));
 
 var app = new Vue({
   el: '#app'
@@ -144,15 +144,15 @@ var app = new Vue({
 
 /***/ }),
 
-/***/ 49:
+/***/ 52:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(4)
 /* script */
-var __vue_script__ = __webpack_require__(50)
+var __vue_script__ = __webpack_require__(53)
 /* template */
-var __vue_template__ = __webpack_require__(51)
+var __vue_template__ = __webpack_require__(54)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -192,7 +192,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 50:
+/***/ 53:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -225,34 +225,52 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['replied', 'reply', 'yourAnswer', 'send']
+    props: ['replied', 'reply', 'yourAnswer', 'send', 'threadId'],
+    data: function data() {
+        return {
+            replies: [],
+            thread_id: this.threadId,
+            reply_to_save: {
+                body: '',
+                thread_id: this.threadId
+            }
+        };
+    },
+
+    methods: {
+        getReplies: function getReplies() {
+            var _this = this;
+
+            window.axios.get('/replies/' + this.thread_id).then(function (response) {
+                _this.replies = response.data;
+            });
+        },
+        save: function save() {
+            var _this2 = this;
+
+            window.axios.post('/replies', this.reply_to_save).then(function () {
+                _this2.getReplies();
+            });
+        }
+    },
+    mounted: function mounted() {
+        var _this3 = this;
+
+        this.getReplies();
+
+        Echo.channel('new.reply.' + this.thread_id).listen('NewReply', function (e) {
+            if (e.reply) {
+                _this3.getReplies();
+            }
+        });
+    }
 });
 
 /***/ }),
 
-/***/ 51:
+/***/ 54:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -260,66 +278,68 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "card" }, [
-      _c("div", { staticClass: "card-content" }, [
-        _c("span", { staticClass: "card-title" }, [
-          _vm._v("Erik " + _vm._s(_vm.replied))
-        ]),
-        _vm._v(" "),
-        _c("blockquote", [
-          _vm._v(
-            "\n                AUSHDAISUHDIASU  asiudh aushd iuahsdiu h hiasuhdi uiaushdiau hiausd iausdhiausdh hiaushdiu haisudh iaushiuahsdiuh\n                ausdhaiusdh\n            "
-          )
+    _c(
+      "div",
+      { staticClass: "card" },
+      _vm._l(_vm.replies, function(reply) {
+        return _c("div", { key: reply.id, staticClass: "card-content" }, [
+          _c("span", { staticClass: "card-title" }, [
+            _vm._v(_vm._s(reply.user.name) + " " + _vm._s(_vm.replied))
+          ]),
+          _vm._v(" "),
+          _c("blockquote", [
+            _vm._v("\n               " + _vm._s(reply.body) + "\n            ")
+          ])
         ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "card" }, [
-      _c("div", { staticClass: "card-content" }, [
-        _c("span", { staticClass: "card-title" }, [
-          _vm._v("Erik " + _vm._s(_vm.replied))
-        ]),
-        _vm._v(" "),
-        _c("blockquote", [
-          _vm._v(
-            "\n                AUSHDAISUHDIASU  asiudh aushd iuahsdiu h hiasuhdi uiaushdiau hiausd iausdhiausdh hiaushdiu haisudh iaushiuahsdiuh\n                ausdhaiusdh\n            "
-          )
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "card" }, [
-      _c("div", { staticClass: "card-content" }, [
-        _c("span", { staticClass: "card-title" }, [
-          _vm._v("Erik " + _vm._s(_vm.replied))
-        ]),
-        _vm._v(" "),
-        _c("blockquote", [
-          _vm._v(
-            "\n                AUSHDAISUHDIASU  asiudh aushd iuahsdiu h hiasuhdi uiaushdiau hiausd iausdhiausdh hiaushdiu haisudh iaushiuahsdiuh\n                ausdhaiusdh\n            "
-          )
-        ])
-      ])
-    ]),
+      })
+    ),
     _vm._v(" "),
     _c("div", { staticClass: "card grey lighten-4" }, [
       _c("div", { staticClass: "card-content" }, [
         _c("span", { staticClass: "card-title" }, [_vm._v(_vm._s(_vm.reply))]),
         _vm._v(" "),
-        _c("form", [
-          _c("div", { staticClass: "input-field" }, [
-            _c("textarea", {
-              staticClass: "materialize-textarea",
-              attrs: { rows: "10", placeholder: _vm.yourAnswer }
-            })
-          ]),
-          _vm._v(" "),
-          _c(
-            "button",
-            { staticClass: "btn red accent-2", attrs: { type: "submit" } },
-            [_vm._v(_vm._s(_vm.send))]
-          )
-        ])
+        _c(
+          "form",
+          {
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                _vm.save()
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "input-field" }, [
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.reply_to_save.body,
+                    expression: "reply_to_save.body"
+                  }
+                ],
+                staticClass: "materialize-textarea",
+                attrs: { rows: "10", placeholder: _vm.yourAnswer },
+                domProps: { value: _vm.reply_to_save.body },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.reply_to_save, "body", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              { staticClass: "btn red accent-2", attrs: { type: "submit" } },
+              [_vm._v(_vm._s(_vm.send))]
+            )
+          ]
+        )
       ])
     ])
   ])
@@ -336,4 +356,4 @@ if (false) {
 
 /***/ })
 
-},[47]);
+},[50]);

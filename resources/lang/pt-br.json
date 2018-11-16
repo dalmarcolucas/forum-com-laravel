@@ -14,6 +14,12 @@
     "Title": "Titulo",
     "Body": "Corpo",
     "Edit": "Editar",
-    "Back": "Voltar"
+    "Back": "Voltar",
+    "Login": "Login",
+    "E-Mail Address": "Endereço de e-mail",
+    "Password": "Senha",
+    "Remember Me": "Lembrar de mim",
+    "Forgot Your Password?": "Esqueceu sua senha?"
+
 
 }
