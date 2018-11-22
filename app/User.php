@@ -16,7 +16,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'provider','social_id'
+    ];
+
+    protected $appends = [
+        'photo_url'
     ];
 
     /**
@@ -27,4 +31,11 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    protected function getPhotoUrlAttribute()
+    {
+        if($this->attributes['photo']){
+            return '/thumb/' . $this->attributes['photo'];
+        }
+    }
 }

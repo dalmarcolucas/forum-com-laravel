@@ -1,6 +1,6 @@
 webpackJsonp([2],{
 
-/***/ 4:
+/***/ 2:
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -110,15 +110,15 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 43:
+/***/ 53:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(44);
+module.exports = __webpack_require__(54);
 
 
 /***/ }),
 
-/***/ 44:
+/***/ 54:
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -136,7 +136,7 @@ window.Vue = __webpack_require__(3);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('threads-component', __webpack_require__(47));
+Vue.component('threads-component', __webpack_require__(55));
 
 var app = new Vue({
   el: '#app'
@@ -144,15 +144,15 @@ var app = new Vue({
 
 /***/ }),
 
-/***/ 47:
+/***/ 55:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(4)
+var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(48)
+var __vue_script__ = __webpack_require__(56)
 /* template */
-var __vue_template__ = __webpack_require__(49)
+var __vue_template__ = __webpack_require__(57)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -192,11 +192,13 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 48:
+/***/ 56:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
 //
 //
 //
@@ -253,6 +255,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             threads_response: [],
+            logged: window.user || {},
             thread_to_save: {
                 title: '',
                 body: ''
@@ -291,7 +294,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 49:
+/***/ 57:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -319,19 +322,50 @@ var render = function() {
           _c(
             "tbody",
             _vm._l(_vm.threads_response.data, function(thread) {
-              return _c("tr", { key: thread.id }, [
-                _c("th", [_vm._v(_vm._s(thread.id))]),
-                _vm._v(" "),
-                _c("th", [_vm._v(_vm._s(thread.title))]),
-                _vm._v(" "),
-                _c("th", [_vm._v("0")]),
-                _vm._v(" "),
-                _c("th", [
-                  _c("a", { attrs: { href: "/threads/" + thread.id } }, [
-                    _vm._v(_vm._s(_vm.open))
+              return _c(
+                "tr",
+                { key: thread.id, class: { "blue lighten-4": thread.fixed } },
+                [
+                  _c("th", [_vm._v(_vm._s(thread.id))]),
+                  _vm._v(" "),
+                  _c("th", [_vm._v(_vm._s(thread.title))]),
+                  _vm._v(" "),
+                  _c("th", [_vm._v(_vm._s(thread.replies_count))]),
+                  _vm._v(" "),
+                  _c("th", [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn",
+                        attrs: { href: "/threads/" + thread.id }
+                      },
+                      [_vm._v(_vm._s(_vm.open))]
+                    ),
+                    _vm._v(" "),
+                    _vm.logged.role === "admin"
+                      ? _c(
+                          "a",
+                          {
+                            staticClass: "btn",
+                            attrs: { href: "/threads/pin/" + thread.id }
+                          },
+                          [_vm._v("Fixar")]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.logged.role === "admin"
+                      ? _c(
+                          "a",
+                          {
+                            staticClass: "btn",
+                            attrs: { href: "/threads/close/" + thread.id }
+                          },
+                          [_vm._v("Fechar")]
+                        )
+                      : _vm._e()
                   ])
-                ])
-              ])
+                ]
+              )
             })
           )
         ])
@@ -425,4 +459,4 @@ if (false) {
 
 /***/ })
 
-},[43]);
+},[53]);

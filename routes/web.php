@@ -43,6 +43,13 @@ Route::middleware(['auth'])
         });
 
         Route::post('/replies', 'RepliesController@store');
+        Route::get('/replies/highlight/{id}', 'RepliesController@highlight');
+        Route::get('/threads/pin/{thread}', 'ThreadsController@pin');
+        Route::get('/threads/close/{thread}', 'ThreadsController@close');
+
+        Route::get('/profile', 'ProfileController@edit');
+        Route::post('/profile', 'ProfileController@update');
+
     });
 
 Auth::routes();

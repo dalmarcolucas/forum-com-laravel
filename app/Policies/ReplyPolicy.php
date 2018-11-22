@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use App\User;
-use App\Thread;
+use App\Reply;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ThreadPolicy
+class ReplyPolicy
 {
     use HandlesAuthorization;
 
@@ -14,16 +14,16 @@ class ThreadPolicy
      * Determine if the given post can be updated by the user.
      *
      * @param  \App\User  $user
-     * @param  \App\Thread  $thread
+     * @param  \App\Reply  $reply
      * @return bool
      */
-    public function update(User $user, Thread $thread)
-    {
-        return $user->id === $thread->user_id;
-    }
-
-    public function isAdmin(User $user, Thread $thread)
+    public function update(User $user, Reply $reply)
     {
         return $user->role === 'admin';
+    }
+
+    public function closed(User $user, Reply $reply)
+    {
+        return !$reply->thread->closed;
     }
 }

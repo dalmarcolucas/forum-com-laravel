@@ -24,10 +24,30 @@ class RepliesController extends Controller
         $reply->thread_id = $request->input('thread_id');
         $reply->user_id = \Auth::user()->id;
 
+        $this->authorize('closed', $reply);
+
         $reply->save();
 
         broadcast(new NewReply($reply));
 
         return response()->json($reply);
+    }
+
+    public function highlight($id)
+    {
+        $reply = Reply::find($id);
+        $this->authorize('update', $reply);
+
+        Reply::where([
+            ['thread_id', '=', $reply->thread_id],
+            ['id', '!=', $id]
+        ])->update([
+            'highlighted' => false
+        ]);
+
+        $reply->highlighted = true;
+        $reply->save();
+
+        return redirect('threads/' . $reply->thread_id);
     }
 }

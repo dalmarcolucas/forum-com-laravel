@@ -24,7 +24,8 @@ class SocialAuthController extends Controller
      ])->first();
 
      if($account){
-         return redirect()->to('/');
+        auth()->login($account->user);
+        return redirect()->to('/');
      }
 
      $localUser = User::where('email', $userProvider->email)->first(); 
@@ -45,7 +46,8 @@ class SocialAuthController extends Controller
      $account->user_id = $newUser->id;
      $account->save();
 
-     return redirect()->to('/');
+     auth()->login($newUser);
 
+     return redirect()->to('/');
   }
 }
